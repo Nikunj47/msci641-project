@@ -9,8 +9,6 @@ from tqdm import tqdm
 from typing import List, Dict
 from transformers import AdamW, AutoTokenizer, AutoModelForSequenceClassification
 
-
-
 def parse_args():
     parser = argparse.ArgumentParser(description='This is a baseline for task 1 that predicts that each clickbait post warrants a passage spoiler.')
 

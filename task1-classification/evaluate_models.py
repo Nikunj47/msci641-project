@@ -6,10 +6,13 @@
 import nltk
 import json
 import numpy as np
+import pandas as pd
+import xgboost as xgb
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression
@@ -90,8 +93,25 @@ def init_model(train, test, data):
             test_y.append(t['tags'][0])
     
     print("Using only " + data + " to train the models")
+    
+    #XGBoost
+    le = LabelEncoder()
+    y_train = le.fit_transform(train_y)
+    y_test = le.transform(test_y)
+ 
+    vectorizer = CountVectorizer()
+    X_train = vectorizer.fit_transform(train_x)
+    X_test = vectorizer.transform(test_x)
 
-    ## Word2vec
+    xgb_model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
+    xgb_model.fit(X_train, y_train)
+
+    xgb_predictions = xgb_model.predict(X_test)
+    xgb_accuracy = accuracy_score(y_test, xgb_predictions)
+    print('The accuracy of XGBoost is: ')
+    print(xgb_accuracy)
+
+    # Word2vec
     if(data == 'title'):
         vectorizer = CountVectorizer(ngram_range=(1, 2))
     else:
@@ -158,12 +178,15 @@ def init_model(train, test, data):
     model3.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     model3.fit(X_train, y_train, epochs=10, validation_data=(X_test, y_test))
     print("Running CNN model :")
+    pred_list = []
     for i in range(0, len(test_x)):
         new_post = test_x[i]
         new_post_seq = tokenizer.texts_to_sequences([new_post])
         new_post_data = pad_sequences(new_post_seq, maxlen=500)
         pred3 = model3.predict(new_post_data)
         pred3 = le.inverse_transform([pred3.argmax()])[0]
+        pred_list.append(pred3)
+    print("The accuracy of Binary CNN is:  {}".format(accuracy_score(test_y, pred_list)))
 
 
     ### logic regression

@@ -24,11 +24,11 @@ def load_input(df):
 class ClassificationModel:
     def __init__(self):
         self.models = {
-            "passage": AutoModelForSequenceClassification.from_pretrained("../models/{model}", num_labels=2,local_files_only=True),
-            "phrase": AutoModelForSequenceClassification.from_pretrained("../models/{model}", num_labels=2,local_files_only=True),
-            "multi": AutoModelForSequenceClassification.from_pretrained("../models/{model}", num_labels=2,local_files_only=True)
+            "passage": AutoModelForSequenceClassification.from_pretrained("../models/roberta-base-3_multiclass-2023-07-28-T22-30-30", num_labels=3,local_files_only=True),
+            "phrase": AutoModelForSequenceClassification.from_pretrained("../models/roberta-base-3_multiclass-2023-07-28-T22-30-30", num_labels=3,local_files_only=True),
+            "multi": AutoModelForSequenceClassification.from_pretrained("../models/roberta-base-3_multiclass-2023-07-28-T22-30-30", num_labels=3,local_files_only=True)
         }
-        self.tokenizer = AutoTokenizer.from_pretrained("../models/{model}",local_files_only=True)
+        self.tokenizer = AutoTokenizer.from_pretrained("../models/roberta-base-3_multiclass-2023-07-28-T22-30-30",local_files_only=True)
         self.fields = {"passage": ['postText', 'targetTitle'], "phrase": ['postText'], "multi": ['postText', 'targetTitle', 'targetParagraphs']}
 
     def get_text(self, row, tag):
@@ -76,7 +76,8 @@ def run_baseline(input_file, output_file):
 
 
 if __name__ == '__main__':
-    args = parse_args()
-    print(args.input)
-    output = '../data/output/predictions.jsonl'
-    run_baseline(args.input, output)
+    # args = parse_args()
+    input = '../data/input/test.jsonl'
+    # print(args.input)
+    output = '../data/output/roberta-multiclass-base-3.jsonl'
+    run_baseline(input, output)

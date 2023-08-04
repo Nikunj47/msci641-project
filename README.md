@@ -13,3 +13,7 @@ data/input  : Contains the initial input train, val and test files.
 data/output : Contains the output files generated from all the model configurations.
 
 task1-classification : Contains the files used for the classification of spoilerType
+
+task2-generative : Contains the files for generation of the spoilers using predictions from Task1.
+
+utils : Contains file to support the editing of the data as per requirement

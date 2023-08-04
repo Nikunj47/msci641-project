@@ -24,11 +24,11 @@ def load_input(df):
 class ClassificationModel:
     def __init__(self):
         self.models = {
-            "passage": AutoModelForSequenceClassification.from_pretrained("../models/roberta-base-3_multiclass-2023-07-28-T22-30-30", num_labels=3,local_files_only=True),
-            "phrase": AutoModelForSequenceClassification.from_pretrained("../models/roberta-base-3_multiclass-2023-07-28-T22-30-30", num_labels=3,local_files_only=True),
-            "multi": AutoModelForSequenceClassification.from_pretrained("../models/roberta-base-3_multiclass-2023-07-28-T22-30-30", num_labels=3,local_files_only=True)
+            "passage": AutoModelForSequenceClassification.from_pretrained("../models/deberta/deberta-base-2_multiclass-2023-07-31-T17-22-31", num_labels=3,local_files_only=True),
+            "phrase": AutoModelForSequenceClassification.from_pretrained("../models/deberta/deberta-base-2_multiclass-2023-07-31-T17-22-31", num_labels=3,local_files_only=True),
+            "multi": AutoModelForSequenceClassification.from_pretrained("../models/deberta/deberta-base-2_multiclass-2023-07-31-T17-22-31", num_labels=3,local_files_only=True)
         }
-        self.tokenizer = AutoTokenizer.from_pretrained("../models/roberta-base-3_multiclass-2023-07-28-T22-30-30",local_files_only=True)
+        self.tokenizer = AutoTokenizer.from_pretrained("../models/deberta/deberta-base-2_multiclass-2023-07-31-T17-22-31",local_files_only=True)
         self.fields = {"passage": ['postText', 'targetTitle'], "phrase": ['postText'], "multi": ['postText', 'targetTitle', 'targetParagraphs']}
 
     def get_text(self, row, tag):
@@ -79,5 +79,5 @@ if __name__ == '__main__':
     # args = parse_args()
     input = '../data/input/test.jsonl'
     # print(args.input)
-    output = '../data/output/roberta-multiclass-base-3.jsonl'
+    output = '../data/output/deberta-multiclass-base-2.jsonl'
     run_baseline(input, output)

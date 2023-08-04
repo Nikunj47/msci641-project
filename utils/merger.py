@@ -3,7 +3,7 @@
 # Run this file as -- python3 merger.py path1 path2.
 # Path1 = Path to original test.json
 # Path2 = Path to output file of Task1.
-# Output is stored as /data/test-merged.jsonl
+# Output is stored as /data/input/test-merged.jsonl
 
 import pandas as pd
 import sys
@@ -16,4 +16,4 @@ spoilerTypeFile = pd.read_json(path2, lines=True)
 outputFile = pd.merge(testFile, spoilerTypeFile, on='id')
 
 # Save the merged dataframe as a new jsonl file
-outputFile.to_json('../data/test-merged.jsonl', orient='records', lines=True)
+outputFile.to_json('../data/input/test-merged.jsonl', orient='records', lines=True)
